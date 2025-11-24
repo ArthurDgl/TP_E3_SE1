@@ -14,9 +14,9 @@ char* litDixCaracteres(int fd) {
 
 char* litLigne(int fd) {
 	char* characters = malloc(TAILLEBUF * sizeof(char));
-	off_t pos = lseek(fd, 0, SEEK_CUR);
+
 	int readCount = read(fd, characters, TAILLEBUF);
-	lseek(fd, pos, SEEK_SET);
+
 	if (readCount == 0) {
 		free(characters);
 		return NULL;
@@ -32,8 +32,8 @@ char* litLigne(int fd) {
 		free(characters);
 		return NULL;
 	}
-	int p = lseek(fd, length, SEEK_CUR);
-	printf("lseek : %d\n", p);
+	int p = lseek(fd, -(readCount - (length + 1)), SEEK_CUR);
+	//printf("lseek : %d\n", p);
 	char* result = malloc((length + 1) * sizeof(char));
 	strncpy(result, characters, length);
 	free(characters);
