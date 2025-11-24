@@ -7,7 +7,7 @@
 
 char* litDixCaracteres(int fd) {
 	char* characters = malloc(11 * sizeof(char));
-	read(fd, characters, 10);;
+	read(fd, characters, 10);
 	characters[10] = '\0';
 	return characters;
 }
@@ -38,4 +38,15 @@ char* litLigne(int fd) {
 	strncpy(result, characters, length);
 	free(characters);
 	return result;
+}
+
+void ecritChaine(int fd, char* str) {
+	size_t len = strlen(str);
+	size_t total = 0;
+
+	while (total < len) {
+		ssize_t written = write(fd, str + total, len - total);
+		if (written < 0) return;
+		total += written;
+	}
 }
