@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "gestionFichiers.h"
 #include "constants.h"
 
@@ -11,9 +12,11 @@ char* litDixCaracteres(int fd) {
 	return characters;
 }
 
-char* litLigneAt(int fd, off_t offset) {
+char* litLigne(int fd) {
 	char* characters = malloc(TAILLEBUF * sizeof(char));
-	int readCount = pread(fd, characters, TAILLEBUF, offset);
+	off_t pos = lseek(fd, 0, SEEK_CUR);
+	int readCount = read(fd, characters, TAILLEBUF);
+	lseek(fd, pos, SEEK_SET);
 	if (readCount == 0) {
 		free(characters);
 		return NULL;
@@ -25,12 +28,14 @@ char* litLigneAt(int fd, off_t offset) {
 			break;
 		}
 	}
+	if (length == TAILLEBUF) {
+		free(characters);
+		return NULL;
+	}
+	int p = lseek(fd, length, SEEK_CUR);
+	printf("lseek : %d\n", p);
 	char* result = malloc((length + 1) * sizeof(char));
 	strncpy(result, characters, length);
 	free(characters);
 	return result;
-}
-
-char* litLigne(int fd) {
-	return litLigneAt(fd, 0);
 }

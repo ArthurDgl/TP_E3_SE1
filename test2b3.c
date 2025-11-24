@@ -12,12 +12,10 @@ int main(int argc, char **argv) {
 	}
 
 	int fd = open(argv[1], O_RDONLY);
-	off_t offset = 0;
+
 	while (1) {
-		char* characters = litLigneAt(fd, offset);
+		char* characters = litLigne(fd);
 		if (characters == NULL) break;
-		int length = strlen(characters) + 1;
-		offset += length * sizeof(char);
 		printf("%s\n", characters);
 		free(characters);
 	}
