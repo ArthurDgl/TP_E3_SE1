@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 	while (1) {
 		char* characters = litLigne(fd);
 		if (characters == NULL) break;
-		printf("%s\n", characters);
+		printf("%s", characters);
 		free(characters);
 	}
 	close(fd);

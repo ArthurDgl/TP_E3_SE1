@@ -1,4 +1,5 @@
-all: test test2b1 test2b2 test2b3 test2b4 test2b5 test3b1
+all: test test2b1 test2b2 test2b3 test2b4 test2b5 test3b1 test3b2 test3b3
+
 
 test: test.o gestionFichiers.o
 	gcc -o test test.o gestionFichiers.o
@@ -41,6 +42,18 @@ test3b1: test3b1.o
 
 test3b1.o: test3b1.c gestionFichiers.h
 	gcc -o test3b1.o -c test3b1.c
+
+test3b2: test3b2.o
+	gcc -o test3b2 test3b2.o gestionFichiers.o
+
+test3b2.o: test3b2.c gestionFichiers.h
+	gcc -o test3b2.o -c test3b2.c
+
+test3b3: test3b3.o
+	gcc -o test3b3 test3b3.o gestionFichiers.o
+
+test3b3.o: test3b3.c gestionFichiers.h
+	gcc -o test3b3.o -c test3b3.c
 
 gestionFichiers.o: gestionFichiers.c constants.h
 	gcc -o gestionFichiers.o -c gestionFichiers.c

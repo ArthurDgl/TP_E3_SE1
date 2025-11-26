@@ -24,7 +24,7 @@ char* litLigne(int fd) {
 	int length = TAILLEBUF;
 	for (int i = 0; i < TAILLEBUF; i++) {
 		if (characters[i] == '\n') {
-			length = i;
+			length = i + 1;
 			break;
 		}
 	}
@@ -32,16 +32,18 @@ char* litLigne(int fd) {
 		free(characters);
 		return NULL;
 	}
-	int p = lseek(fd, -(readCount - (length + 1)), SEEK_CUR);
+	int p = lseek(fd, -(readCount - length), SEEK_CUR);
 	//printf("lseek : %d\n", p);
 	char* result = malloc((length + 1) * sizeof(char));
 	strncpy(result, characters, length);
+	result[length] = '\0';
 	free(characters);
 	return result;
 }
 
 void ecritChaine(int fd, char* str) {
-	size_t len = strlen(str);
+	size_t len = (strlen(str) + 1) * sizeof(char);
+	//printf("len: %d\n", (int)len);
 	size_t total = 0;
 
 	while (total < len) {
